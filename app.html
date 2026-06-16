@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laporan Belajar Privat</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --primary: #4F46E5;
+    --primary-light: #EEF2FF;
+    --primary-dark: #3730A3;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --success: #10B981;
+    --success-light: #D1FAE5;
+    --danger: #EF4444;
+    --danger-light: #FEE2E2;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(79,70,229,.10);
+    --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #F0F4FF;
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  /* ───── HEADER ───── */
+  .app-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+    padding: 20px 24px 0;
+    color: #fff;
+  }
+  .app-header h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .app-header p { font-size: .82rem; opacity: .8; margin-top: 2px; }
+
+  /* ───── TABS ───── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 16px;
+    overflow-x: auto;
+    padding-bottom: 0;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    border: none;
+    background: rgba(255,255,255,.18);
+    color: rgba(255,255,255,.85);
+    border-radius: 10px 10px 0 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .82rem;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .tab-btn.active {
+    background: #fff;
+    color: var(--primary);
+  }
+
+  /* ───── MAIN CONTENT ───── */
+  .main { padding: 20px 16px; max-width: 860px; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ───── CARD ───── */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+  }
+  .card-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px;
+    background: var(--primary-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ───── FORM ELEMENTS ───── */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  @media(max-width:560px) {
+    .form-row, .form-row.triple { grid-template-columns: 1fr; }
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    letter-spacing: .3px;
+    text-transform: uppercase;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: .9rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--gray-800);
+    background: var(--gray-50);
+    outline: none;
+    transition: border .2s, box-shadow .2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+    background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  /* ───── RATING STARS ───── */
+  .rating-group { display: flex; flex-direction: column; gap: 5px; }
+  .rating-group label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    letter-spacing: .3px;
+    text-transform: uppercase;
+  }
+  .stars { display: flex; gap: 6px; }
+  .star-btn {
+    background: none; border: none;
+    font-size: 22px; cursor: pointer;
+    color: var(--gray-200);
+    transition: color .15s, transform .1s;
+    line-height: 1;
+  }
+  .star-btn.active { color: var(--accent); }
+  .star-btn:hover { transform: scale(1.15); }
+
+  /* ───── BUTTONS ───── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 20px;
+    border-radius: 9px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79,70,229,.35);
+  }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { filter: brightness(1.05); }
+
+  .btn-outline {
+    background: #fff;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-light); }
+
+  .btn-sm { padding: 6px 14px; font-size: .8rem; }
+  .btn-danger { background: var(--danger); color: #fff; }
+
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+  /* ───── BADGE ───── */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 700;
+  }
+  .badge-primary { background: var(--primary-light); color: var(--primary); }
+  .badge-accent { background: var(--accent-light); color: #92400E; }
+  .badge-success { background: var(--success-light); color: #065F46; }
+
+  /* ───── PHOTO UPLOAD ───── */
+  .photo-drop {
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    background: var(--primary-light);
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .photo-drop:hover { background: #E0E7FF; }
+  .photo-drop .drop-icon { font-size: 36px; margin-bottom: 10px; }
+  .photo-drop p { font-size: .88rem; color: var(--gray-600); }
+  .photo-drop strong { color: var(--primary); }
+  #photo-preview-wrap { display: none; margin-top: 12px; text-align: center; }
+  #photo-preview { max-width: 200px; border-radius: 10px; box-shadow: var(--shadow-sm); }
+
+  /* ───── REKAP TABLE ───── */
+  .rekap-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .rekap-table th {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: .78rem;
+    text-transform: uppercase;
+  }
+  .rekap-table td { padding: 10px 12px; border-bottom: 1px solid var(--gray-100); }
+  .rekap-table tr:last-child td { border-bottom: none; }
+  .rekap-table tr:hover td { background: var(--gray-50); }
+
+  /* ───── SHARE LINK ───── */
+  .share-box {
+    background: var(--primary-light);
+    border: 1.5px solid #C7D2FE;
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .share-box input {
+    flex: 1;
+    min-width: 200px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: .85rem;
+    background: #fff;
+  }
+
+  /* ───── ALERT ───── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 9px;
+    font-size: .87rem;
+    margin-bottom: 14px;
+    display: none;
+  }
+  .alert-success { background: var(--success-light); color: #065F46; border: 1px solid #6EE7B7; }
+  .alert-error { background: var(--danger-light); color: #991B1B; border: 1px solid #FCA5A5; }
+  .alert.show { display: block; }
+
+  /* ───── LOADING ───── */
+  .loading {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ───── SISWA LIST ───── */
+  .siswa-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--gray-50);
+    border-radius: 9px;
+    margin-bottom: 8px;
+    border: 1px solid var(--gray-200);
+    transition: box-shadow .2s;
+  }
+  .siswa-item:hover { box-shadow: var(--shadow-sm); }
+  .siswa-info { display: flex; flex-direction: column; gap: 2px; }
+  .siswa-info strong { font-weight: 700; font-size: .9rem; }
+  .siswa-info span { font-size: .78rem; color: var(--gray-400); }
+
+  /* ───── ORTU VIEW ───── */
+  .ortu-hero {
+    background: linear-gradient(135deg, #7C3AED, var(--primary));
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .ortu-hero .avatar {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 12px;
+  }
+  .ortu-hero h2 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.2rem; }
+  .ortu-hero p { opacity: .85; font-size: .85rem; margin-top: 4px; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+  }
+  .stat-box .stat-val {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .stat-box .stat-lbl { font-size: .72rem; color: var(--gray-400); margin-top: 4px; font-weight: 600; }
+
+  .pertemuan-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+  }
+  .pertemuan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .pertemuan-date { font-size: .78rem; color: var(--gray-400); }
+  .rating-display { display: flex; gap: 4px; }
+  .rating-display .r-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    flex: 1;
+  }
+  .rating-display .r-label { font-size: .65rem; color: var(--gray-400); text-align: center; }
+  .rating-display .r-stars { font-size: 11px; color: var(--accent); }
+
+  /* ───── SECTION DIVIDER ───── */
+  .section-label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--gray-400);
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+  }
+
+  /* ───── ORTU READONLY NOTICE ───── */
+  .readonly-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-light);
+    border: 1px solid #FCD34D;
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: .82rem;
+    margin-bottom: 14px;
+    color: #78350F;
+  }
+
+  /* ───── SETUP INSTRUCTIONS MODAL ───── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(0,0,0,.2);
+  }
+  .modal h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+  }
+  .setup-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .setup-step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .step-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: .82rem;
+    font-family: 'Nunito', sans-serif;
+  }
+  .step-body { flex: 1; }
+  .step-body strong { display: block; font-weight: 700; margin-bottom: 4px; font-size: .9rem; }
+  .step-body p { font-size: .83rem; color: var(--gray-600); line-height: 1.55; }
+  .step-body code {
+    display: block;
+    background: var(--gray-100);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: .78rem;
+    margin-top: 6px;
+    word-break: break-all;
+    color: var(--primary-dark);
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER + TABS ══════════ -->
+<div class="app-header">
+  <h1>📚 Laporan Belajar Privat</h1>
+  <p id="header-sub">Sistem Presensi &amp; Penilaian Tentor</p>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('tentor')">✏️ Tentor</button>
+    <button class="tab-btn" onclick="switchTab('siswa')">👦 Data Siswa</button>
+    <button class="tab-btn" onclick="switchTab('rekap')">📊 Rekap</button>
+    <button class="tab-btn" onclick="switchTab('ortu')">👨‍👩‍👧 Orang Tua</button>
+    <button class="tab-btn" onclick="switchTab('setup')">⚙️ Setup</button>
+  </div>
+</div>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
+
+  <!-- ────── PANEL: TENTOR ────── -->
+  <div id="panel-tentor" class="panel active">
+    <div id="alert-tentor" class="alert"></div>
+
+    <div class="card">
+      <div class="card-title"><div class="icon">📋</div> Isi Laporan Pertemuan</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pilih Siswa</label>
+          <select id="t-siswa">
+            <option value="">— Pilih Siswa —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tanggal Pertemuan</label>
+          <input type="date" id="t-tanggal" />
+        </div>
+      </div>
+
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-group">
+          <label>Mata Pelajaran</label>
+          <select id="t-mapel">
+            <option>Matematika</option>
+            <option>Bahasa Indonesia</option>
+            <option>IPA</option>
+            <option>IPS</option>
+            <option>Bahasa Inggris</option>
+            <option>PPKN</option>
+            <option>Agama</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Topik / Materi</label>
+          <input type="text" id="t-topik" placeholder="cth: Pecahan, Penjumlahan..." />
+        </div>
+      </div>
+
+      <!-- PENILAIAN -->
+      <div class="section-label" style="margin-top:18px">Penilaian Pertemuan</div>
+
+      <div class="form-row triple">
+        <div class="rating-group">
+          <label>🎯 Fokus</label>
+          <div class="stars" id="stars-fokus" data-key="fokus">
+            <button class="star-btn" data-val="1" onclick="setRating('fokus',1)">★</button>
+            <button class="star-btn" data-val="2" onclick="setRating('fokus',2)">★</button>
+            <button class="star-btn" data-val="3" onclick="setRating('fokus',3)">★</button>
+            <button class="star-btn" data-val="4" onclick="setRating('fokus',4)">★</button>
+            <button class="star-btn" data-val="5" onclick="setRating('fokus',5)">★</button>
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>⏰ Disiplin</label>
+          <div class="stars" id="stars-disiplin" data-key="disiplin">
+            <button class="star-btn" data-val="1" onclick="setRating('disiplin',1)">★</button>
+            <button class="star-btn" data-val="2" onclick="setRating('disiplin',2)">★</button>
+            <button class="star-btn" data-val="3" onclick="setRating('disiplin',3)">★</button>
+            <button class="star-btn" data-val="4" onclick="setRating('disiplin',4)">★</button>
+            <button class="star-btn" data-val="5" onclick="setRating('disiplin',5)">★</button>
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>🔥 Semangat</label>
+          <div class="stars" id="stars-semangat" data-key="semangat">
+            <button class="star-btn" data-val="1" onclick="setRating('semangat',1)">★</button>
+            <button class="star-btn" data-val="2" onclick="setRating('semangat',2)">★</button>
+            <button class="star-btn" data-val="3" onclick="setRating('semangat',3)">★</button>
+            <button class="star-btn" data-val="4" onclick="setRating('semangat',4)">★</button>
+            <button class="star-btn" data-val="5" onclick="setRating('semangat',5)">★</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KOLOM CUSTOM -->
+      <div class="form-row" style="margin-top:14px; align-items:end;">
+        <div class="form-group">
+          <label>Label Penilaian Tambahan (bebas)</label>
+          <input type="text" id="t-custom-label" placeholder="cth: Kemampuan Baca / Keberanian..." />
+        </div>
+        <div class="rating-group">
+          <label id="label-custom-stars">⭐ Penilaian</label>
+          <div class="stars" id="stars-custom">
+            <button class="star-btn" data-val="1" onclick="setRating('custom',1)">★</button>
+            <button class="star-btn" data-val="2" onclick="setRating('custom',2)">★</button>
+            <button class="star-btn" data-val="3" onclick="setRating('custom',3)">★</button>
+            <button class="star-btn" data-val="4" onclick="setRating('custom',4)">★</button>
+            <button class="star-btn" data-val="5" onclick="setRating('custom',5)">★</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATATAN & FOTO -->
+      <div class="form-group" style="margin-top:14px">
+        <label>Catatan / PR untuk Siswa</label>
+        <textarea id="t-catatan" placeholder="Tulis catatan, pencapaian, atau PR..."></textarea>
+      </div>
+
+      <!-- FOTO -->
+      <div class="section-label">Foto Dokumentasi (Opsional)</div>
+      <div class="photo-drop" onclick="document.getElementById('foto-input').click()">
+        <div class="drop-icon">📸</div>
+        <p><strong>Klik untuk pilih foto</strong></p>
+        <p>Dokumentasi belajar hari ini</p>
+        <input type="file" id="foto-input" accept="image/*" style="display:none" onchange="handlePhoto(event)" />
+      </div>
+      <div id="photo-preview-wrap">
+        <img id="photo-preview" alt="preview" />
+        <br><button class="btn btn-sm" style="margin-top:6px;color:var(--danger);background:none;border:none;cursor:pointer" onclick="clearPhoto()">✕ Hapus Foto</button>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="submitLaporan()" id="btn-submit">
+          💾 Simpan Laporan
+        </button>
+        <button class="btn btn-outline" onclick="resetForm()">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────── PANEL: SISWA ────── -->
+  <div id="panel-siswa" class="panel">
+    <div id="alert-siswa" class="alert"></div>
+
+    <div class="card">
+      <div class="card-title"><div class="icon">➕</div> Tambah Siswa Baru</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Siswa</label>
+          <input type="text" id="s-nama" placeholder="Nama lengkap siswa" />
+        </div>
+        <div class="form-group">
+          <label>Kelas</label>
+          <select id="s-kelas">
+            <option>Kelas 1 SD</option><option>Kelas 2 SD</option><option>Kelas 3 SD</option>
+            <option>Kelas 4 SD</option><option>Kelas 5 SD</option><option>Kelas 6 SD</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-group">
+          <label>Nama Orang Tua</label>
+          <input type="text" id="s-ortu" placeholder="Ayah / Ibu..." />
+        </div>
+        <div class="form-group">
+          <label>No. HP Orang Tua</label>
+          <input type="text" id="s-hp" placeholder="08..." />
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <label>Fokus Pelajaran</label>
+        <input type="text" id="s-fokus" placeholder="cth: Matematika, IPA" />
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="tambahSiswa()">➕ Tambah Siswa</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="icon">👦</div> Daftar Siswa</div>
+      <div id="siswa-list"><p style="color:var(--gray-400);font-size:.85rem">Belum ada data siswa.</p></div>
+    </div>
+  </div>
+
+  <!-- ────── PANEL: REKAP ────── -->
+  <div id="panel-rekap" class="panel">
+    <div class="card">
+      <div class="card-title"><div class="icon">📊</div> Rekap Bulanan</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pilih Siswa</label>
+          <select id="r-siswa" onchange="loadRekap()">
+            <option value="">— Semua Siswa —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Bulan</label>
+          <input type="month" id="r-bulan" onchange="loadRekap()" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="rekap-result" style="display:none">
+      <div class="card-title"><div class="icon">📈</div> Hasil Rekap</div>
+      <div id="rekap-stats" class="stat-row" style="grid-template-columns:repeat(4,1fr)"></div>
+      <div style="overflow-x:auto">
+        <table class="rekap-table" id="rekap-table">
+          <thead>
+            <tr>
+              <th>Tanggal</th><th>Siswa</th><th>Mapel</th>
+              <th>Fokus</th><th>Disiplin</th><th>Semangat</th><th>Custom</th><th>Catatan</th>
+            </tr>
+          </thead>
+          <tbody id="rekap-tbody"></tbody>
+        </table>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇️ Export CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────── PANEL: ORANG TUA ────── -->
+  <div id="panel-ortu" class="panel">
+    <div id="alert-ortu" class="alert"></div>
+
+    <!-- Mode tentor: pilih siswa untuk salin link -->
+    <div id="ortu-tentor-view">
+      <div class="card">
+        <div class="card-title"><div class="icon">🔗</div> Bagikan Link ke Orang Tua</div>
+        <p style="font-size:.85rem;color:var(--gray-600);margin-bottom:14px">
+          Pilih siswa, lalu salin link-nya dan kirim ke orang tua melalui WhatsApp.
+          Orang tua <strong>hanya bisa melihat</strong>, tidak bisa mengedit.
+        </p>
+        <div class="form-group">
+          <label>Pilih Siswa</label>
+          <select id="share-siswa" onchange="generateShareLink()">
+            <option value="">— Pilih Siswa —</option>
+          </select>
+        </div>
+        <div class="share-box" style="margin-top:14px">
+          <input type="text" id="share-link-input" readonly placeholder="Pilih siswa untuk mendapatkan link..." />
+          <button class="btn btn-primary btn-sm" onclick="copyShareLink()">📋 Salin</button>
+          <button class="btn btn-success btn-sm" onclick="waShareLink()">📱 WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode ortu: tampilan read-only -->
+    <div id="ortu-readonly-view" style="display:none">
+      <div class="readonly-notice">
+        👁️ <span>Anda sedang melihat laporan belajar anak Anda. Halaman ini hanya untuk memantau.</span>
+      </div>
+      <div class="ortu-hero">
+        <div class="avatar">👦</div>
+        <h2 id="ortu-nama-siswa">—</h2>
+        <p id="ortu-kelas-siswa">—</p>
+      </div>
+      <div class="stat-row" id="ortu-stats"></div>
+      <div class="section-label">Riwayat Pertemuan</div>
+      <div id="ortu-pertemuan-list"></div>
+    </div>
+  </div>
+
+  <!-- ────── PANEL: SETUP ────── -->
+  <div id="panel-setup" class="panel">
+    <div class="card">
+      <div class="card-title"><div class="icon">⚙️</div> Konfigurasi Backend</div>
+      <div class="form-group">
+        <label>URL Google Apps Script (Web App URL)</label>
+        <input type="text" id="cfg-url" placeholder="https://script.google.com/macros/s/..." />
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveConfig()">💾 Simpan URL</button>
+        <button class="btn btn-outline" onclick="testConnection()">🔌 Test Koneksi</button>
+      </div>
+      <div id="alert-setup" class="alert" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="icon">📖</div> Panduan Setup Cepat</div>
+      <button class="btn btn-outline" onclick="document.getElementById('modal-setup').classList.add('open')">
+        📋 Lihat Langkah-Langkah Setup
+      </button>
+    </div>
+
+    <div class="card" style="border:2px solid var(--primary-light)">
+      <div class="card-title"><div class="icon">💡</div> Status Sistem</div>
+      <div id="status-list" style="font-size:.85rem;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══════════ MODAL: SETUP GUIDE ══════════ -->
+<div class="modal-overlay" id="modal-setup">
+  <div class="modal">
+    <h2>🚀 Panduan Setup Langkah demi Langkah</h2>
+
+    <div class="setup-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Buka Google Sheets</strong>
+        <p>Buat Google Sheets baru. Beri nama misalnya "Data Laporan Privat". Catat URL-nya.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Buka Apps Script</strong>
+        <p>Di Google Sheets, klik menu <strong>Ekstensi → Apps Script</strong>. Hapus kode yang ada, lalu paste seluruh kode dari file <code>backend.gs</code> yang sudah disertakan.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Ganti ID Sheet & Folder Drive</strong>
+        <p>Di baris paling atas kode Apps Script, isi:</p>
+        <code>const SHEET_ID = "ID_GOOGLE_SHEET_ANDA";<br>const FOLDER_ID = "ID_FOLDER_DRIVE_ANDA";</code>
+        <p style="margin-top:6px">ID Sheet ada di URL Sheets: <code>docs.google.com/spreadsheets/d/<strong>[INI ID-NYA]</strong>/edit</code></p>
+        <p style="margin-top:4px">ID Folder Drive: buka folder Drive → lihat URL: <code>drive.google.com/drive/folders/<strong>[INI ID-NYA]</strong></code></p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Deploy sebagai Web App</strong>
+        <p>Klik <strong>Deploy → New deployment</strong>. Pilih tipe: <strong>Web app</strong>. Atur:</p>
+        <code>Execute as: Me<br>Who has access: Anyone</code>
+        <p style="margin-top:6px">Klik Deploy → izinkan akses. Salin <strong>Web App URL</strong> yang muncul.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Paste URL ke Tab Setup</strong>
+        <p>Kembali ke aplikasi ini, buka tab <strong>⚙️ Setup</strong>, paste URL tadi, klik <strong>Simpan URL</strong>. Lalu klik <strong>Test Koneksi</strong> untuk memastikan berhasil.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Hosting File HTML (Opsional tapi Direkomendasikan)</strong>
+        <p>Upload file <code>app.html</code> ini ke:</p>
+        <code>• GitHub Pages (gratis)<br>• Netlify Drop (gratis)<br>• Google Drive → "Bagikan" → salin link</code>
+        <p style="margin-top:6px">Setelah punya URL permanen, link orang tua bisa langsung dibagikan.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <strong>Tambah Siswa & Mulai Input!</strong>
+        <p>Buka tab <strong>👦 Data Siswa</strong> → tambah nama siswa. Kemudian buka tab <strong>✏️ Tentor</strong> → isi laporan setiap pertemuan. Link orang tua tersedia di tab <strong>👨‍👩‍👧 Orang Tua</strong>.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:4px">
+      <button class="btn btn-primary" onclick="document.getElementById('modal-setup').classList.remove('open')">✅ Mengerti, Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SCRIPT ══════════ -->
+<script>
+// ─── STATE ───
+let ratings = { fokus:0, disiplin:0, semangat:0, custom:0 };
+let photoBase64 = null;
+let siswaData = [];
+let laporanData = [];
+let config = {};
+
+// ─── INIT ───
+window.addEventListener('DOMContentLoaded', () => {
+  config = JSON.parse(localStorage.getItem('cfg_privat') || '{}');
+  siswaData = JSON.parse(localStorage.getItem('siswa_privat') || '[]');
+  laporanData = JSON.parse(localStorage.getItem('laporan_privat') || '[]');
+
+  // Set today
+  document.getElementById('t-tanggal').value = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  document.getElementById('r-bulan').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  if (config.url) document.getElementById('cfg-url').value = config.url;
+
+  renderSiswaList();
+  renderSiswaOptions();
+  updateStatusPanel();
+  checkOrtuMode();
+  loadRekap();
+});
+
+// ─── TAB SWITCH ───
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (name === 'rekap') loadRekap();
+  if (name === 'ortu') checkOrtuMode();
+}
+
+// ─── ORTU MODE (URL param) ───
+function checkOrtuMode() {
+  const params = new URLSearchParams(window.location.search);
+  const siswaId = params.get('siswa');
+  if (!siswaId) return;
+
+  // Hide tentor tabs
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (!b.textContent.includes('Orang Tua')) b.style.display = 'none';
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-ortu').classList.add('active');
+
+  document.getElementById('ortu-tentor-view').style.display = 'none';
+  document.getElementById('ortu-readonly-view').style.display = 'block';
+
+  const siswa = siswaData.find(s => s.id === siswaId);
+  if (!siswa) {
+    document.getElementById('ortu-nama-siswa').textContent = 'Data Tidak Ditemukan';
+    return;
+  }
+  document.getElementById('ortu-nama-siswa').textContent = siswa.nama;
+  document.getElementById('ortu-kelas-siswa').textContent = siswa.kelas + ' • ' + (siswa.fokus||'');
+  document.getElementById('header-sub').textContent = 'Laporan untuk ' + siswa.nama;
+
+  const laporanSiswa = laporanData.filter(l => l.siswaId === siswaId)
+    .sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+  const total = laporanSiswa.length;
+  const avgFokus = total ? (laporanSiswa.reduce((s,l)=>s+Number(l.fokus||0),0)/total).toFixed(1) : '-';
+  const avgSemangat = total ? (laporanSiswa.reduce((s,l)=>s+Number(l.semangat||0),0)/total).toFixed(1) : '-';
+
+  document.getElementById('ortu-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-val">${total}</div><div class="stat-lbl">Total Pertemuan</div></div>
+    <div class="stat-box"><div class="stat-val">${avgFokus}⭐</div><div class="stat-lbl">Rata Fokus</div></div>
+    <div class="stat-box"><div class="stat-val">${avgSemangat}⭐</div><div class="stat-lbl">Rata Semangat</div></div>
+  `;
+
+  const list = document.getElementById('ortu-pertemuan-list');
+  if (!laporanSiswa.length) {
+    list.innerHTML = '<p style="color:var(--gray-400);font-size:.85rem;text-align:center;padding:20px">Belum ada laporan pertemuan.</p>';
+    return;
+  }
+
+  list.innerHTML = laporanSiswa.map(l => `
+    <div class="pertemuan-card">
+      <div class="pertemuan-header">
+        <div>
+          <strong style="font-size:.9rem">${l.mapel}</strong>
+          <span class="badge badge-primary" style="margin-left:6px">${l.topik||''}</span>
+        </div>
+        <span class="pertemuan-date">${formatDate(l.tanggal)}</span>
+      </div>
+      <div class="rating-display">
+        <div class="r-item">
+          <div class="r-stars">${stars(l.fokus)}</div>
+          <div class="r-label">🎯 Fokus</div>
+        </div>
+        <div class="r-item">
+          <div class="r-stars">${stars(l.disiplin)}</div>
+          <div class="r-label">⏰ Disiplin</div>
+        </div>
+        <div class="r-item">
+          <div class="r-stars">${stars(l.semangat)}</div>
+          <div class="r-label">🔥 Semangat</div>
+        </div>
+        ${l.customLabel ? `<div class="r-item">
+          <div class="r-stars">${stars(l.customVal)}</div>
+          <div class="r-label">⭐ ${l.customLabel}</div>
+        </div>` : ''}
+      </div>
+      ${l.catatan ? `<div style="margin-top:10px;font-size:.83rem;background:var(--gray-50);padding:10px;border-radius:8px;color:var(--gray-600)">
+        📝 ${l.catatan}
+      </div>` : ''}
+      ${l.fotoUrl ? `<div style="margin-top:10px">
+        <img src="${l.fotoUrl}" alt="foto" style="max-width:100%;border-radius:8px;max-height:200px;object-fit:cover"/>
+      </div>` : ''}
+    </div>
+  `).join('');
+}
+
+function stars(n) {
+  n = parseInt(n)||0;
+  return '★'.repeat(n) + '☆'.repeat(5-n);
+}
+function formatDate(d) {
+  if (!d) return '-';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ─── RATING STARS ───
+function setRating(key, val) {
+  ratings[key] = val;
+  const container = document.getElementById('stars-' + key) || document.getElementById('stars-custom');
+  if (!container) return;
+  container.querySelectorAll('.star-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.val) <= val);
+  });
+  if (key === 'custom') {
+    const lbl = document.getElementById('t-custom-label').value;
+    document.getElementById('label-custom-stars').textContent = (lbl || 'Penilaian');
+  }
+}
+
+// ─── PHOTO ───
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoBase64 = ev.target.result;
+    document.getElementById('photo-preview').src = photoBase64;
+    document.getElementById('photo-preview-wrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function clearPhoto() {
+  photoBase64 = null;
+  document.getElementById('foto-input').value = '';
+  document.getElementById('photo-preview-wrap').style.display = 'none';
+}
+
+// ─── SUBMIT LAPORAN ───
+async function submitLaporan() {
+  const siswaId = document.getElementById('t-siswa').value;
+  const tanggal = document.getElementById('t-tanggal').value;
+  if (!siswaId) return showAlert('alert-tentor','Pilih siswa terlebih dahulu!','error');
+  if (!tanggal) return showAlert('alert-tentor','Isi tanggal pertemuan!','error');
+  if (!ratings.fokus || !ratings.disiplin || !ratings.semangat)
+    return showAlert('alert-tentor','Isi semua penilaian (Fokus, Disiplin, Semangat)!','error');
+
+  const btn = document.getElementById('btn-submit');
+  btn.innerHTML = '<span class="loading"></span> Menyimpan...';
+  btn.disabled = true;
+
+  const siswa = siswaData.find(s => s.id === siswaId);
+  const laporan = {
+    id: 'lap_' + Date.now(),
+    siswaId,
+    namaSiswa: siswa?.nama || '',
+    kelas: siswa?.kelas || '',
+    tanggal,
+    mapel: document.getElementById('t-mapel').value,
+    topik: document.getElementById('t-topik').value,
+    fokus: ratings.fokus,
+    disiplin: ratings.disiplin,
+    semangat: ratings.semangat,
+    customLabel: document.getElementById('t-custom-label').value,
+    customVal: ratings.custom,
+    catatan: document.getElementById('t-catatan').value,
+    fotoUrl: null,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    if (config.url) {
+      // Send to Google Apps Script
+      const payload = { action:'saveLaporan', data: laporan };
+      if (photoBase64) payload.photo = photoBase64;
+
+      const res = await fetch(config.url, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const json = await res.json();
+      if (json.fotoUrl) laporan.fotoUrl = json.fotoUrl;
+    }
+  } catch(e) {
+    console.warn('Backend tidak tersedia, simpan lokal saja.', e);
+  }
+
+  // Simpan lokal
+  laporanData.push(laporan);
+  saveLaporan();
+
+  showAlert('alert-tentor','✅ Laporan berhasil disimpan!','success');
+  resetForm();
+  btn.innerHTML = '💾 Simpan Laporan';
+  btn.disabled = false;
+}
+
+function resetForm() {
+  document.getElementById('t-siswa').value = '';
+  document.getElementById('t-tanggal').value = new Date().toISOString().split('T')[0];
+  document.getElementById('t-topik').value = '';
+  document.getElementById('t-catatan').value = '';
+  document.getElementById('t-custom-label').value = '';
+  ratings = { fokus:0, disiplin:0, semangat:0, custom:0 };
+  ['fokus','disiplin','semangat'].forEach(k => {
+    document.getElementById('stars-'+k).querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));
+  });
+  document.getElementById('stars-custom').querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));
+  clearPhoto();
+}
+
+// ─── TAMBAH SISWA ───
+async function tambahSiswa() {
+  const nama = document.getElementById('s-nama').value.trim();
+  if (!nama) return showAlert('alert-siswa','Nama siswa wajib diisi!','error');
+
+  const siswa = {
+    id: 'siswa_' + Date.now(),
+    nama,
+    kelas: document.getElementById('s-kelas').value,
+    ortu: document.getElementById('s-ortu').value,
+    hp: document.getElementById('s-hp').value,
+    fokus: document.getElementById('s-fokus').value
+  };
+
+  try {
+    if (config.url) {
+      await fetch(config.url, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ action:'saveSiswa', data: siswa })
+      });
+    }
+  } catch(e) {}
+
+  siswaData.push(siswa);
+  saveSiswa();
+  renderSiswaList();
+  renderSiswaOptions();
+  showAlert('alert-siswa','✅ Siswa berhasil ditambahkan!','success');
+  ['s-nama','s-ortu','s-hp','s-fokus'].forEach(id => document.getElementById(id).value='');
+}
+
+function hapusSiswa(id) {
+  if (!confirm('Hapus siswa ini?')) return;
+  siswaData = siswaData.filter(s => s.id !== id);
+  saveSiswa();
+  renderSiswaList();
+  renderSiswaOptions();
+}
+
+function renderSiswaList() {
+  const el = document.getElementById('siswa-list');
+  if (!siswaData.length) {
+    el.innerHTML = '<p style="color:var(--gray-400);font-size:.85rem">Belum ada data siswa.</p>';
+    return;
+  }
+  el.innerHTML = siswaData.map(s => `
+    <div class="siswa-item">
+      <div class="siswa-info">
+        <strong>👦 ${s.nama}</strong>
+        <span>${s.kelas} • ${s.ortu||'-'} • ${s.fokus||'-'}</span>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="hapusSiswa('${s.id}')">🗑️</button>
+    </div>
+  `).join('');
+}
+
+function renderSiswaOptions() {
+  const selects = ['t-siswa','r-siswa','share-siswa'];
+  selects.forEach(id => {
+    const el = document.getElementById(id);
+    const cur = el.value;
+    const opts = siswaData.map(s => `<option value="${s.id}">${s.nama} - ${s.kelas}</option>`).join('');
+    el.innerHTML = '<option value="">— Pilih Siswa —</option>' + opts;
+    if (cur) el.value = cur;
+  });
+}
+
+// ─── REKAP ───
+function loadRekap() {
+  const siswaId = document.getElementById('r-siswa').value;
+  const bulan = document.getElementById('r-bulan').value;
+  if (!bulan) return;
+
+  const [yr, mo] = bulan.split('-');
+  let data = laporanData.filter(l => {
+    const d = new Date(l.tanggal);
+    return d.getFullYear() === parseInt(yr) && (d.getMonth()+1) === parseInt(mo);
+  });
+  if (siswaId) data = data.filter(l => l.siswaId === siswaId);
+  data.sort((a,b) => new Date(a.tanggal)-new Date(b.tanggal));
+
+  const box = document.getElementById('rekap-result');
+  box.style.display = data.length ? 'block' : 'none';
+  if (!data.length) return;
+
+  const avg = key => data.length ? (data.reduce((s,l)=>s+Number(l[key]||0),0)/data.length).toFixed(1) : '-';
+
+  document.getElementById('rekap-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-val">${data.length}</div><div class="stat-lbl">Pertemuan</div></div>
+    <div class="stat-box"><div class="stat-val">${avg('fokus')}⭐</div><div class="stat-lbl">Fokus</div></div>
+    <div class="stat-box"><div class="stat-val">${avg('disiplin')}⭐</div><div class="stat-lbl">Disiplin</div></div>
+    <div class="stat-box"><div class="stat-val">${avg('semangat')}⭐</div><div class="stat-lbl">Semangat</div></div>
+  `;
+
+  document.getElementById('rekap-tbody').innerHTML = data.map(l => `
+    <tr>
+      <td>${formatDate(l.tanggal)}</td>
+      <td><strong>${l.namaSiswa}</strong></td>
+      <td><span class="badge badge-accent">${l.mapel}</span></td>
+      <td>${stars(l.fokus)}</td>
+      <td>${stars(l.disiplin)}</td>
+      <td>${stars(l.semangat)}</td>
+      <td>${l.customLabel ? `${l.customLabel}: ${stars(l.customVal)}` : '-'}</td>
+      <td style="max-width:160px;font-size:.8rem">${l.catatan||'-'}</td>
+    </tr>
+  `).join('');
+}
+
+function exportCSV() {
+  const siswaId = document.getElementById('r-siswa').value;
+  const bulan = document.getElementById('r-bulan').value;
+  const [yr, mo] = bulan.split('-');
+  let data = laporanData.filter(l => {
+    const d = new Date(l.tanggal);
+    return d.getFullYear() === parseInt(yr) && (d.getMonth()+1) === parseInt(mo);
+  });
+  if (siswaId) data = data.filter(l => l.siswaId === siswaId);
+
+  const header = 'Tanggal,Siswa,Kelas,Mapel,Topik,Fokus,Disiplin,Semangat,Custom Label,Custom Nilai,Catatan\n';
+  const rows = data.map(l =>
+    [l.tanggal,l.namaSiswa,l.kelas,l.mapel,l.topik,l.fokus,l.disiplin,l.semangat,l.customLabel,l.customVal,'"'+( l.catatan||'').replace(/"/g,'""')+'"'].join(',')
+  ).join('\n');
+
+  const blob = new Blob([header+rows], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `rekap_${bulan}.csv`;
+  a.click();
+}
+
+// ─── SHARE LINK ───
+function generateShareLink() {
+  const siswaId = document.getElementById('share-siswa').value;
+  if (!siswaId) {
+    document.getElementById('share-link-input').value = '';
+    return;
+  }
+  const base = window.location.href.split('?')[0];
+  const link = `${base}?siswa=${siswaId}`;
+  document.getElementById('share-link-input').value = link;
+}
+
+function copyShareLink() {
+  const inp = document.getElementById('share-link-input');
+  if (!inp.value) return;
+  navigator.clipboard.writeText(inp.value).then(() => {
+    showAlert('alert-ortu','✅ Link berhasil disalin!','success');
+  });
+}
+
+function waShareLink() {
+  const inp = document.getElementById('share-link-input');
+  if (!inp.value) return;
+  const siswaId = document.getElementById('share-siswa').value;
+  const siswa = siswaData.find(s => s.id === siswaId);
+  const msg = encodeURIComponent(`Halo, berikut link laporan belajar ${siswa?.nama||''}:\n${inp.value}`);
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+// ─── CONFIG ───
+function saveConfig() {
+  const url = document.getElementById('cfg-url').value.trim();
+  config.url = url;
+  localStorage.setItem('cfg_privat', JSON.stringify(config));
+  showAlert('alert-setup','✅ URL disimpan!','success');
+  updateStatusPanel();
+}
+
+async function testConnection() {
+  if (!config.url) return showAlert('alert-setup','Masukkan URL terlebih dahulu!','error');
+  try {
+    const res = await fetch(config.url + '?action=ping');
+    const json = await res.json();
+    if (json.status === 'ok') showAlert('alert-setup','✅ Koneksi berhasil! Backend aktif.','success');
+    else showAlert('alert-setup','⚠️ Backend merespon tapi ada masalah: '+JSON.stringify(json),'error');
+  } catch(e) {
+    showAlert('alert-setup','❌ Gagal konek. Cek URL atau izin deploy Apps Script.','error');
+  }
+}
+
+function updateStatusPanel() {
+  const items = [
+    { label:'Backend URL', ok: !!config.url, val: config.url ? '✅ Tersimpan' : '❌ Belum diisi' },
+    { label:'Data Siswa', ok: siswaData.length > 0, val: siswaData.length + ' siswa' },
+    { label:'Data Laporan', ok: laporanData.length >= 0, val: laporanData.length + ' pertemuan tercatat' },
+  ];
+  document.getElementById('status-list').innerHTML = items.map(i => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100)">
+      <span style="color:var(--gray-600)">${i.label}</span>
+      <span style="font-weight:600;color:${i.ok?'var(--success)':'var(--danger)'}">${i.val}</span>
+    </div>
+  `).join('');
+}
+
+// ─── PERSIST ───
+function saveSiswa() { localStorage.setItem('siswa_privat', JSON.stringify(siswaData)); updateStatusPanel(); }
+function saveLaporan() { localStorage.setItem('laporan_privat', JSON.stringify(laporanData)); updateStatusPanel(); }
+
+// ─── ALERT ───
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'alert alert-' + (type==='error'?'error':'success') + ' show';
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+</script>
+</body>
+</html>
